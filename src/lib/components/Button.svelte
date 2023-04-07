@@ -8,7 +8,7 @@
 	let variantStyle = '';
 	$: {
 		variantStyle = 'bg-red-400 text-white';
-		if (secondary) variantStyle = 'bg-white';
+		if (secondary) variantStyle = 'bg-stone-100';
 		if (textOnly) variantStyle = 'border-none p-0 underline';
 	}
 </script>

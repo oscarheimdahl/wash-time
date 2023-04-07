@@ -1,11 +1,15 @@
 <script lang="ts">
-	import { formattedDate } from '$lib/helpers/date';
-	import Button from '$lib/components/Button.svelte';
-	import { onMount } from 'svelte';
-	export let day: number;
+	import { dateTo_YYY_MM_DD_String, formattedDate } from '$lib/helpers/date';
+	import type { LaundryBooking } from '../../routes/(app)/+page';
+	import BookButton from './BookButton.svelte';
+	export let day: Date;
+	export let bookingMap: Map<string, LaundryBooking>;
+
+	const dateString = dateTo_YYY_MM_DD_String(day);
 </script>
 
 <h2 class="text-right">{formattedDate(day)}</h2>
-<Button>Boka</Button>
-<Button>Boka</Button>
-<Button>Boka</Button>
+<BookButton {day} part={1} booking={bookingMap.get(`${dateString}P1`)} />
+<BookButton {day} part={2} booking={bookingMap.get(`${dateString}P2`)} />
+<BookButton {day} part={3} booking={bookingMap.get(`${dateString}P3`)} />
+<div />

@@ -3,10 +3,13 @@
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
+	import { user } from '../store/user';
+	import { supabase as supabaseStore } from '../store/supabase';
 
 	export let data: LayoutData;
 
 	$: ({ supabase, session } = data);
+	let show = false;
 
 	onMount(() => {
 		const {
@@ -17,11 +20,17 @@
 			}
 		});
 		if (!session && window.location.pathname !== '/login') window.location.href = '/login';
-
+		else {
+			show = true;
+			user.set({ id: session?.user.id ?? '' });
+			supabaseStore.set(supabase);
+		}
 		return () => subscription.unsubscribe();
 	});
 </script>
 
 <div class="h-full w-full bg-amber-200">
-	<slot />
+	{#if show}
+		<slot />
+	{/if}
 </div>
