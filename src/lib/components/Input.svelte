@@ -3,13 +3,14 @@
 	export let value = '';
 	export let type = 'text';
 	export let label: string;
+	export let hideLabel = false;
 
 	function typeAction(node: HTMLInputElement) {
 		node.type = type;
 	}
 </script>
 
-<label for={id}>{label}</label>
+<label hidden={hideLabel} for={id}>{label}</label>
 <input
 	use:typeAction
 	bind:value

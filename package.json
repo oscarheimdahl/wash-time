@@ -33,6 +33,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@supabase/auth-helpers-sveltekit": "^0.9.1"
+		"@supabase/auth-helpers-sveltekit": "^0.9.1",
+		"date-fns": "^2.29.3"
 	}
 }

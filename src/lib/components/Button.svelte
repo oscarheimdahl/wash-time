@@ -9,18 +9,18 @@
 	$: {
 		variantStyle = 'bg-red-400 text-white';
 		if (secondary) variantStyle = 'bg-white';
-		if (textOnly) variantStyle = 'border-none p-1';
+		if (textOnly) variantStyle = 'border-none p-0 underline';
 	}
 </script>
 
 <button
-	aria-label="label"
-	class={` ${variantStyle} grow rounded-md border-2 border-black p-2 transition-colors ${$$props.class}`}
+	aria-label={label}
+	class={` ${variantStyle} rounded-md border-2 border-black p-2 transition-colors ${$$props.class}`}
 	on:click={onClick}
 >
 	<div class="stack">
 		<div class={loading ? 'opacity-0' : ''}><slot /></div>
-		<div class={`${loading ? '' : 'opacity-0'} translate-y-1`}><Loader /></div>
+		<div class={`${loading ? '' : 'hidden'} translate-y-1`}><Loader /></div>
 	</div>
 </button>
 
