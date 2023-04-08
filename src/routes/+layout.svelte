@@ -29,7 +29,7 @@
 	});
 </script>
 
-<div class="h-full w-full bg-amber-200">
+<div class="h-full w-full bg-stone-400">
 	{#if show}
 		<slot />
 	{/if}

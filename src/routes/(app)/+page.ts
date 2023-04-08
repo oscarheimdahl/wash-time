@@ -6,6 +6,7 @@ export interface LaundryBooking {
 	date: string;
 	user: string;
 	booked: boolean;
+	id: number;
 }
 
 export const load: PageLoad = async ({ parent }) => {
@@ -18,7 +19,8 @@ export const load: PageLoad = async ({ parent }) => {
 			date: booking.date,
 			part: booking.part_of_day,
 			user: booking.user,
-			booked: booking.booked
+			booked: booking.booked,
+			id: booking.id
 		})
 	);
 

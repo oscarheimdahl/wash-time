@@ -15,7 +15,7 @@
 
 <button
 	aria-label={label}
-	class={` ${variantStyle} rounded-md border-2 border-black p-2 transition-colors ${$$props.class}`}
+	class={`${variantStyle} rounded-md border-2 border-black p-2 transition-colors ${$$props.class}`}
 	on:click={onClick}
 >
 	<div class="stack">

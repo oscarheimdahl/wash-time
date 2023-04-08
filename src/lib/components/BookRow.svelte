@@ -9,7 +9,7 @@
 </script>
 
 <h2 class="text-right">{formattedDate(day)}</h2>
-<BookButton {day} part={1} booking={bookingMap.get(`${dateString}P1`)} />
-<BookButton {day} part={2} booking={bookingMap.get(`${dateString}P2`)} />
-<BookButton {day} part={3} booking={bookingMap.get(`${dateString}P3`)} />
+<BookButton {day} part={1} />
+<BookButton {day} part={2} />
+<BookButton {day} part={3} />
 <div />
