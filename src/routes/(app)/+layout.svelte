@@ -20,7 +20,7 @@
 
 <div class="h-full">
 	<div
-		class="fixed flex h-12 w-full items-center justify-between border-b-2 border-black bg-amber-200 px-2"
+		class="fixed flex h-12 w-full items-center justify-between border-b-2 border-black bg-stone-600 px-2"
 	>
 		<h2>{session?.user.email ?? ''}</h2>
 		<Button {loading} onClick={logout} textOnly>Logout</Button>

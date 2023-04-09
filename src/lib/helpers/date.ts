@@ -8,7 +8,7 @@ export function addDays(date: Date, days: number) {
 	return new Date(fns_addDays(date, days).toDateString());
 }
 
-export function dateTo_YYY_MM_DD_String(date: Date) {
+export function dateToYYYYMMDD(date: Date) {
 	const pad00 = (num: number) => num.toString().padStart(2, '0'); // 1 -> 01, 21 -> 21
 
 	const day = pad00(date.getDate());

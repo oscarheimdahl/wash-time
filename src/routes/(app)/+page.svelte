@@ -32,12 +32,12 @@
 				(payload) => {
 					if (payload.eventType === 'INSERT') {
 						const newBooking = payload.new as WashersRow;
-						// if (newBooking.user === userId) return;
+						if (newBooking.user === userId) return;
 						addBooking(dbBookingToBusiness(newBooking));
 					}
 					if (payload.eventType === 'DELETE') {
 						const oldBooking = payload.old as WashersRow;
-						// if (oldBooking.user === userId) return;
+						if (oldBooking.user === userId) return;
 						deleteBooking(dbBookingToBusiness(oldBooking));
 					}
 				}
@@ -46,8 +46,10 @@
 	});
 </script>
 
-<div class="flex h-full w-full flex-col items-center justify-center gap-4 overflow-hidden pt-4">
-	<div class="special-col grid w-full gap-4 px-4 text-center">
+<div
+	class="flex h-full w-full flex-col items-center justify-center gap-4 overflow-hidden pt-4 text-white"
+>
+	<div class="special-col x grid w-full gap-4 px-4 text-center">
 		<div />
 		<h2>08:00 - 12:00</h2>
 		<h2>12:00 - 17:00</h2>
@@ -69,6 +71,6 @@
 
 <style>
 	.special-col {
-		grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+		grid-template-columns: 3fr 1fr 1fr 1fr 3fr;
 	}
 </style>
