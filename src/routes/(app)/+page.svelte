@@ -49,18 +49,18 @@
 <div
 	class="flex h-full w-full flex-col items-center justify-center gap-4 overflow-hidden pt-4 text-white"
 >
-	<div class="special-col x grid w-full gap-4 px-4 text-center">
+	<!-- <div class="special-col x grid w-full gap-4 px-4 text-center">
 		<div />
 		<h2>08:00 - 12:00</h2>
 		<h2>12:00 - 17:00</h2>
 		<h2>17:00 - 22:00</h2>
 		<div />
-	</div>
+	</div> -->
 	<div
-		class="special-col grid h-full w-full items-center gap-4 overflow-scroll px-4 pb-2 text-center"
+		class="special-col grid h-full w-full items-center gap-6 overflow-scroll px-4 py-2 text-center"
 	>
 		{#each { length: 100 } as _, i}
-			<h2 class="text-right">{formattedDate(addDays(today, i))}</h2>
+			<h2 class="text-right">{i === 0 ? 'Today - ' : ''}{formattedDate(addDays(today, i))}</h2>
 			<BookButton day={addDays(today, i)} part={1} />
 			<BookButton day={addDays(today, i)} part={2} />
 			<BookButton day={addDays(today, i)} part={3} />

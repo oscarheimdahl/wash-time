@@ -16,22 +16,19 @@
 		supabase = value;
 	});
 
-	let styles = '';
 	let bookedBySelf = false;
 	let booked = false;
-	let title = '';
 	let bookings: Map<string, LaundryBooking> = new Map();
 	let booking: LaundryBooking | undefined;
-	bookingsStore.subscribe((value) => {
-		bookings = value;
-
+	let title = '8:00-12:00';
+	if (part === 2) title = '12:00-17:00';
+	if (part === 3) title = '17:00-22:00';
+	bookingsStore.subscribe((_bookings) => {
+		bookings = _bookings;
 		booking = bookings.get(`${dateToYYYYMMDD(day)}P${part}`);
 		booked = !!booking;
-		styles = 'bg-slate-200';
 		bookedBySelf = booking?.user === userId;
-		if (booked) styles = 'bg-red-400';
-		if (bookedBySelf) styles = 'bg-green-400';
-		title = booked ? 'Booked' : 'Book';
+		// title = bookedBySelf ? 'Din' : booked ? 'Bokad' : 'Ledig';
 	});
 
 	function findPreviousBooking() {
@@ -63,14 +60,32 @@
 
 <button
 	on:click={onClick}
-	class={`${styles} h-6 w-6 rounded-md border-2 border-black p-4  text-black`}
-/>
+	disabled={booked && !bookedBySelf}
+	class={`rounded-md border-2 border-black p-4 text-black ${bookedBySelf ? 'booked-by-self' : ''}`}
+	>{title}</button
+>
 
 <style>
 	button {
 		transition: transform 500ms;
+		background-color: #aaa;
 	}
 	button:hover {
-		transform: translateY(2px);
+		transform: scale(0.98);
+	}
+
+	button:disabled:hover {
+		transform: none;
+	}
+	button:disabled {
+		opacity: 0.2;
+	}
+
+	button.booked-by-self {
+		outline: 3px solid orangered;
+		outline-offset: 3px;
+		outline-style: groove;
+		border: none;
+		background-color: #eee;
 	}
 </style>
