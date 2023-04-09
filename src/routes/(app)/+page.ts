@@ -5,8 +5,6 @@ export interface LaundryBooking {
 	part: number;
 	date: string;
 	user: string;
-	booked: boolean;
-	id: number;
 }
 
 export const load: PageLoad = async ({ parent }) => {
@@ -18,9 +16,7 @@ export const load: PageLoad = async ({ parent }) => {
 		laundryBookingMap.set(`${booking.date}P${booking.part_of_day}`, {
 			date: booking.date,
 			part: booking.part_of_day,
-			user: booking.user,
-			booked: booking.booked,
-			id: booking.id
+			user: booking.user
 		})
 	);
 

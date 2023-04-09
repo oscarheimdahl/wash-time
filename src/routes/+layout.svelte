@@ -3,8 +3,8 @@
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
-	import { user } from '../store/user';
-	import { supabase as supabaseStore } from '../store/supabase';
+	import { userStore } from '../store/userStore';
+	import { supabaseStore as supabaseStore } from '../store/supabaseStore';
 
 	export let data: LayoutData;
 
@@ -22,14 +22,14 @@
 		if (!session && window.location.pathname !== '/login') window.location.href = '/login';
 		else {
 			show = true;
-			user.set({ id: session?.user.id ?? '' });
+			userStore.set({ id: session?.user.id ?? '' });
 			supabaseStore.set(supabase);
 		}
 		return () => subscription.unsubscribe();
 	});
 </script>
 
-<div class="h-full w-full bg-stone-400">
+<div class="h-full w-full bg-stone-800">
 	{#if show}
 		<slot />
 	{/if}

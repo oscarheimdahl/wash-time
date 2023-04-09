@@ -1,18 +1,15 @@
 <script lang="ts">
 	import type { LaundryBooking } from '../../routes/(app)/+page';
-	import { user } from '../../store/user';
-	import { supabase as supabaseStore } from '../../store/supabase';
-	import { bookings as bookingsStore } from '../../store/bookings';
+	import { userStore } from '../../store/userStore';
+	import { deleteDBBooking, insertDBBooking, supabaseStore } from '../../store/supabaseStore';
+	import { addBooking, bookingsStore, deleteBooking } from '../../store/bookingsStore';
 	import type { SupabaseType } from '../../types/supabase';
 	import { dateTo_YYY_MM_DD_String as dateTo_YYYY_MM_DD_String } from '$lib/helpers/date';
-	// export let booking: LaundryBooking | undefined;
+
 	export let part: number;
 	export let day: Date;
 
-	let userID = '';
-	user.subscribe((value) => {
-		userID = value.id;
-	});
+	const userId = $userStore.id;
 
 	let supabase: SupabaseType | null;
 	supabaseStore.subscribe((value) => {
@@ -29,40 +26,36 @@
 		bookings = value;
 
 		booking = bookings.get(`${dateTo_YYYY_MM_DD_String(day)}P${part}`);
-		booked = !!booking?.booked;
+		booked = !!booking;
 		styles = 'bg-slate-200';
-		bookedBySelf = booking?.user === userID;
+		bookedBySelf = booking?.user === userId;
 		if (booked) styles = 'bg-red-400';
 		if (bookedBySelf) styles = 'bg-green-400';
 		title = booked ? 'Booked' : 'Book';
 	});
 
-	async function onClick() {
-		if (bookedBySelf) {
-			await supabase?.from('washers').delete().eq('id', booking?.id);
-			return;
-		}
-		if (booked) return;
-		let previousBooking: LaundryBooking | undefined;
-		bookings.forEach((b) => {
-			if (b.user === userID) {
-				previousBooking = b;
+	function findPreviousBooking() {
+		let foundBooking: LaundryBooking | undefined;
+		bookings.forEach((booking) => {
+			if (booking.user === userId) {
+				foundBooking = booking;
 			}
 		});
+		return foundBooking;
+	}
+
+	async function onClick() {
+		if (!supabase) return;
+		const date = dateTo_YYYY_MM_DD_String(day);
+		let previousBooking = findPreviousBooking();
 		if (previousBooking) {
-			bookingsStore.update((map) => {
-				map.delete(`${previousBooking?.date}P${previousBooking?.part}}`);
-				return map;
-			});
-			await supabase?.from('washers').delete().eq('id', previousBooking?.id);
+			deleteDBBooking(supabase, userId, previousBooking.date, previousBooking.part);
+			deleteBooking(previousBooking);
 		}
 
-		await supabase?.from('washers').insert({
-			date: dateTo_YYYY_MM_DD_String(day),
-			part_of_day: part,
-			user: userID,
-			booked: true
-		});
+		if (booked) return;
+		addBooking({ date, part, user: userId });
+		insertDBBooking(supabase, userId, date, part);
 	}
 </script>
 

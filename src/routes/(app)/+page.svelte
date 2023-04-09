@@ -1,16 +1,20 @@
 <script lang="ts">
-	import BookRow from '$components/BookRow.svelte';
-	import { addDays } from '$lib/helpers/date';
+	import { addDays, formattedDate } from '$lib/helpers/date';
 	import { onMount } from 'svelte';
 
 	import type { PageData } from './$types';
-	import { bookings } from '../../store/bookings';
+	import { addBooking, bookingsStore, deleteBooking } from '../../store/bookingsStore';
+	import BookButton from '$components/BookButton.svelte';
+	import type { WashersRow } from '../../types/supabase';
+	import { userStore } from '../../store/userStore';
+	import { dbBookingToBusiness } from '$lib/helpers/db';
 	export let data: PageData;
 	$: ({ supabase } = data);
 
 	let laundryBookingMap = data.laundryBookingMap;
+	bookingsStore.set(laundryBookingMap);
 
-	bookings.set(laundryBookingMap);
+	const userId = $userStore.id;
 
 	const today = new Date(new Date().toDateString());
 
@@ -27,23 +31,14 @@
 				},
 				(payload) => {
 					if (payload.eventType === 'INSERT') {
-						bookings.update((map) => {
-							map.set(`${payload.new.date}P${payload.new.part_of_day}`, {
-								booked: true,
-								date: payload.new.date,
-								part: payload.new.part_of_day,
-								user: payload.new.user,
-								id: payload.new.id
-							});
-							const newMap = map;
-							return newMap;
-						});
+						const newBooking = payload.new as WashersRow;
+						// if (newBooking.user === userId) return;
+						addBooking(dbBookingToBusiness(newBooking));
 					}
 					if (payload.eventType === 'DELETE') {
-						bookings.update((map) => {
-							map.delete(`${payload.old.date}P${payload.old.part_of_day}`);
-							return map;
-						});
+						const oldBooking = payload.old as WashersRow;
+						// if (oldBooking.user === userId) return;
+						deleteBooking(dbBookingToBusiness(oldBooking));
 					}
 				}
 			)
@@ -63,7 +58,11 @@
 		class="special-col grid h-full w-full items-center gap-4 overflow-scroll px-4 pb-2 text-center"
 	>
 		{#each { length: 100 } as _, i}
-			<BookRow day={addDays(today, i)} bookingMap={laundryBookingMap} />
+			<h2 class="text-right">{formattedDate(addDays(today, i))}</h2>
+			<BookButton day={addDays(today, i)} part={1} />
+			<BookButton day={addDays(today, i)} part={2} />
+			<BookButton day={addDays(today, i)} part={3} />
+			<div />
 		{/each}
 	</div>
 </div>

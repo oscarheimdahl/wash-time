@@ -19,8 +19,11 @@
 </script>
 
 <div class="h-full">
-	<div class="fixed flex h-12 w-full justify-center border-b-2 border-black bg-amber-200">
-		<Button {loading} onClick={logout} class="ml-auto" textOnly>Logout</Button>
+	<div
+		class="fixed flex h-12 w-full items-center justify-between border-b-2 border-black bg-amber-200 px-2"
+	>
+		<h2>{session?.user.email ?? ''}</h2>
+		<Button {loading} onClick={logout} textOnly>Logout</Button>
 	</div>
 	<div class="h-12"><!-- under header --></div>
 	<div class="h-[calc(100%-3rem)]">
