@@ -28,4 +28,4 @@ export async function insertDBBooking(
 	});
 }
 
-export const supabaseStore = writable<null | SupabaseType>(null);
+export const supabaseStore = writable<undefined | SupabaseType>(undefined);

@@ -1,6 +1,12 @@
 <script>
 </script>
 
-<div class="grid h-full w-full place-content-center">
-	<span class="rounded-md border-2 border-black bg-stone-400 px-4"> <slot /></span>
+<div class="full grid place-content-center">
+	<span class="rounded-md  bg-white px-4 shadow-md"> <slot /></span>
 </div>
+
+<style>
+	.full {
+		height: 100dvh;
+	}
+</style>

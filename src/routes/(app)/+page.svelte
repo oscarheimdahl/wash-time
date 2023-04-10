@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { addDays, formattedDate } from '$lib/helpers/date';
+	import { addDays, formattedDate, formattedDateLongMonth, weekday } from '$lib/helpers/date';
 	import { onMount } from 'svelte';
 
 	import type { PageData } from './$types';
@@ -8,6 +8,8 @@
 	import type { WashersRow } from '../../types/supabase';
 	import { userStore } from '../../store/userStore';
 	import { dbBookingToBusiness } from '$lib/helpers/db';
+	import CurrentBooking from '$components/CurrentBooking.svelte';
+	import BookButtonRow from '$components/BookButtonRow.svelte';
 	export let data: PageData;
 	$: ({ supabase } = data);
 
@@ -15,8 +17,6 @@
 	bookingsStore.set(laundryBookingMap);
 
 	const userId = $userStore.id;
-
-	const today = new Date(new Date().toDateString());
 
 	onMount(() => {
 		if (!supabase) return;
@@ -46,31 +46,11 @@
 	});
 </script>
 
-<div
-	class="flex h-full w-full flex-col items-center justify-center gap-4 overflow-hidden pt-4 text-white"
->
-	<!-- <div class="special-col x grid w-full gap-4 px-4 text-center">
-		<div />
-		<h2>08:00 - 12:00</h2>
-		<h2>12:00 - 17:00</h2>
-		<h2>17:00 - 22:00</h2>
-		<div />
-	</div> -->
-	<div
-		class="special-col grid h-full w-full items-center gap-6 overflow-scroll px-4 py-2 text-center"
-	>
-		{#each { length: 100 } as _, i}
-			<h2 class="text-right">{i === 0 ? 'Today - ' : ''}{formattedDate(addDays(today, i))}</h2>
-			<BookButton day={addDays(today, i)} part={1} />
-			<BookButton day={addDays(today, i)} part={2} />
-			<BookButton day={addDays(today, i)} part={3} />
-			<div />
+<div class="flex w-full flex-col items-center gap-4  pt-0">
+	<div class="relative mt-4 flex w-full flex-col items-center">
+		{#each { length: 31 } as _, i}
+			<BookButtonRow {i} />
 		{/each}
 	</div>
 </div>
-
-<style>
-	.special-col {
-		grid-template-columns: 3fr 1fr 1fr 1fr 3fr;
-	}
-</style>
+<CurrentBooking />

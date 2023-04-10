@@ -5,13 +5,14 @@
 	import { addBooking, bookingsStore, deleteBooking } from '../../store/bookingsStore';
 	import type { SupabaseType } from '../../types/supabase';
 	import { dateToYYYYMMDD } from '$lib/helpers/date';
+	import Button from './Button.svelte';
 
 	export let part: number;
 	export let day: Date;
 
 	const userId = $userStore.id;
 
-	let supabase: SupabaseType | null;
+	let supabase: SupabaseType | undefined;
 	supabaseStore.subscribe((value) => {
 		supabase = value;
 	});
@@ -20,15 +21,16 @@
 	let booked = false;
 	let bookings: Map<string, LaundryBooking> = new Map();
 	let booking: LaundryBooking | undefined;
-	let title = '8:00-12:00';
-	if (part === 2) title = '12:00-17:00';
-	if (part === 3) title = '17:00-22:00';
+	let timeLabel = '08:00 - 12:00';
+	if (part === 2) timeLabel = '12:00 - 17:00';
+	if (part === 3) timeLabel = '17:00 - 22:00';
+	let title = '';
 	bookingsStore.subscribe((_bookings) => {
 		bookings = _bookings;
 		booking = bookings.get(`${dateToYYYYMMDD(day)}P${part}`);
 		booked = !!booking;
 		bookedBySelf = booking?.user === userId;
-		// title = bookedBySelf ? 'Din' : booked ? 'Bokad' : 'Ledig';
+		title = bookedBySelf ? 'Avboka' : 'Boka';
 	});
 
 	function findPreviousBooking() {
@@ -48,44 +50,20 @@
 		const date = dateToYYYYMMDD(day);
 		let previousBooking = findPreviousBooking();
 		if (previousBooking) {
-			deleteDBBooking(supabase, userId, previousBooking.date, previousBooking.part);
-			deleteBooking(previousBooking);
+			deleteBooking(previousBooking, supabase);
 		}
 		if (sessionBookedBySelf) return;
 
-		addBooking({ date, part, user: userId });
-		insertDBBooking(supabase, userId, date, part);
+		addBooking({ date, part, user: userId }, supabase);
 	}
 </script>
 
-<button
-	on:click={onClick}
-	disabled={booked && !bookedBySelf}
-	class={`rounded-md border-2 border-black p-4 text-black ${bookedBySelf ? 'booked-by-self' : ''}`}
-	>{title}</button
->
+<div class="flex h-full flex-col items-center justify-center gap-1 bg-white">
+	<span class={`text-sm text-black ${booked && !bookedBySelf ? 'disabled' : ''}`}>{timeLabel}</span>
+	<Button {onClick} disabled={booked && !bookedBySelf} destructive={bookedBySelf} class="w-full"
+		>{title}</Button
+	>
+</div>
 
 <style>
-	button {
-		transition: transform 500ms;
-		background-color: #aaa;
-	}
-	button:hover {
-		transform: scale(0.98);
-	}
-
-	button:disabled:hover {
-		transform: none;
-	}
-	button:disabled {
-		opacity: 0.2;
-	}
-
-	button.booked-by-self {
-		outline: 3px solid orangered;
-		outline-offset: 3px;
-		outline-style: groove;
-		border: none;
-		background-color: #eee;
-	}
 </style>

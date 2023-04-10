@@ -3,19 +3,23 @@
 	export let onClick = () => {};
 	export let label = '';
 	export let secondary = false;
+	export let destructive = false;
 	export let textOnly = false;
 	export let loading = false;
+	export let disabled = false;
 	let variantStyle = '';
 	$: {
-		variantStyle = 'bg-red-400 text-white';
+		variantStyle = 'bg-blue-500 text-white';
 		if (secondary) variantStyle = 'bg-stone-100';
-		if (textOnly) variantStyle = 'border-none p-0 underline';
+		if (destructive) variantStyle = 'bg-red-600 text-white';
+		if (textOnly) variantStyle = 'border-none p-0 underline shadow-none';
 	}
 </script>
 
 <button
 	aria-label={label}
-	class={`${variantStyle} rounded-md border-2 border-black p-2  transition-colors ${$$props.class}`}
+	{disabled}
+	class={`${variantStyle} rounded-md px-4 py-2 shadow-md transition-colors ${$$props.class} disabled:opacity-50`}
 	on:click={onClick}
 >
 	<div class="stack">

@@ -12,6 +12,7 @@
 	let loading = false;
 
 	async function login() {
+		errorMessage = '';
 		if (!email || !password) {
 			errorMessage = 'Please provide an email and password';
 			return;
@@ -24,8 +25,10 @@
 
 		if (res.session) window.location.href = '/';
 
-		errorMessage = error?.message ?? '';
-		loading = false;
+		if (error) {
+			errorMessage = error.message;
+			loading = false;
+		}
 	}
 </script>
 
