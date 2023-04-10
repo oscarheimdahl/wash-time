@@ -11,9 +11,9 @@
 	let errorMessage = '';
 	let loading = false;
 
-	async function login() {
+	async function login(method: 'password' | 'google' | 'facebook') {
 		errorMessage = '';
-		if (!email || !password) {
+		if (method === 'password' && (!email || !password)) {
 			errorMessage = 'Please provide an email and password';
 			return;
 		}
@@ -32,20 +32,27 @@
 	}
 </script>
 
-<div class="relative p-2">
-	<form class="flex flex-col gap-2">
-		<Input label="email" bind:value={email} id="" />
-		<div />
-		<Input label="password" type="password" bind:value={password} id="email" />
-		<div class="mt-2 flex flex-col items-center">
-			<Button class="w-min px-6" onClick={login} {loading}>Login</Button>
-			<div class="flex w-80 justify-center gap-2">
-				<a class="m-2" href="/login/register"><Button textOnly class="">Register</Button></a>
-				<a class="m-2" href="/login/forgot-password"
-					><Button textOnly class="">Forgot password</Button></a
-				>
-			</div>
+<div class="relative">
+	<h2 class=" mb-10 text-center text-xl font-medium">Dags för tvätt</h2>
+	<form class="flex flex-col">
+		<Input class="mb-4" label="Email" bind:value={email} id="" />
+		<Input label="Lösenord" type="password" bind:value={password} id="email" />
+		<a class="mt-2 h-6 self-end text-sm text-gray-600" href="/login/forgot-password"
+			>Glömt lösenord?</a
+		>
+		<Button class="mt-8" onClick={() => login('password')} {loading}>Logga in</Button>
+		<a class="m-2 mx-auto" href="/login/register">Registrera</a>
+		<!-- <div class="my-4 flex w-full justify-center gap-2">
+			<div class="w-8 translate-y-[0.7rem] border-t-2 border-gray-300" />
+			<span class="text-center text-gray-500">eller</span>
+			<div class="w-8 translate-y-[0.7rem] border-t-2 border-gray-300" />
 		</div>
+		<div class="flex justify-center gap-4">
+			<Button textOnly>Google</Button>
+			<Button textOnly>Facebook</Button>
+			<button on:click={() => login('google')}><GoogleLogo /></button>
+			<button on:click={() => login('facebook')}><FacebookLogo /></button>
+		</div> -->
 	</form>
 	<LoginErrorMessage {errorMessage} {loading} />
 </div>

@@ -9,6 +9,7 @@
 	let email = '';
 	let password = '';
 	let errorMessage = '';
+	let errorMessageIcon = false;
 	let loading = false;
 
 	async function login() {
@@ -17,25 +18,29 @@
 			email,
 			password
 		});
+		loading = false;
 
 		errorMessage = error?.message ?? '';
-		loading = false;
+		if (res.user) {
+			errorMessage = 'Registreringen lyckades, se inkorg!';
+			errorMessageIcon = true;
+		}
 	}
 </script>
 
-<div class="relative p-2">
-	<form class="flex flex-col gap-2">
-		<Input type="email" label="email" bind:value={email} id="" />
+<div class="relative">
+	<h2 class=" mb-10 text-center text-xl font-medium">Dags för tvätt</h2>
+	<form class="flex flex-col">
+		<Input class="mb-4" type="email" label="Email" bind:value={email} id="" />
 		<div />
-		<Input label="password" type="password" bind:value={password} id="email" />
-		<div class="mt-2 flex flex-col items-center">
-			<Button class="w-min bg-slate-400 px-6" onClick={login} {loading}>Register</Button>
-			<div class="flex w-80 justify-center gap-2">
-				<a class="m-2" href="/login/  "><Button textOnly class="">Back</Button></a>
-			</div>
-		</div>
+		<Input label="Lösenord" type="password" bind:value={password} id="email" />
+		<span class="mt-2 text-center text-sm text-gray-500"
+			>För att slutföra registeringen måste du verifiera din mail-address.
+		</span>
+		<Button class="mt-16 bg-slate-500" onClick={login} {loading}>Registrera</Button>
+		<a class="m-2 mx-auto" href="/login/  ">Tillbaka</a>
 	</form>
-	<LoginErrorMessage {errorMessage} {loading} />
+	<LoginErrorMessage {errorMessage} {loading} showIcon={errorMessageIcon} />
 </div>
 
 <style>

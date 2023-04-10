@@ -1,11 +1,17 @@
 <script>
+	import CheckIcon from './CheckIcon.svelte';
+
 	export let errorMessage = '';
 	export let loading = false;
+	export let showIcon = false;
 </script>
 
-<div class="shake absolute -bottom-20 -left-8 grid h-16 w-[calc(100%+4rem)] text-center">
+<div class="shake absolute -bottom-20 -left-8 grid w-[calc(100%+4rem)] text-center">
 	{#if errorMessage && !loading}
-		<span class={`${errorMessage && !loading ? 'shake' : ''}`}>{errorMessage}</span>
+		<div class={`flex items-center justify-center ${errorMessage && !loading ? 'shake' : ''}`}>
+			<span class="mr-1">{errorMessage}</span>
+			{#if showIcon}<CheckIcon />{/if}
+		</div>
 	{/if}
 </div>
 

@@ -8,6 +8,7 @@
 
 	let email = '';
 	let errorMessage = '';
+	let errorMessageIcon = false;
 	let loading = false;
 
 	async function login() {
@@ -17,17 +18,26 @@
 		});
 
 		errorMessage = error?.message ?? '';
+
+		if (data) {
+			errorMessage = 'Mail skickat!';
+			errorMessageIcon = true;
+		}
 		loading = false;
 	}
 </script>
 
-<div class="relative p-2">
-	<form class="flex flex-col gap-2">
-		<Input type="email" label="email" bind:value={email} id="" />
-		<div class="mt-2 flex flex-col items-center">
-			<Button class=" bg-slate-400 px-6" onClick={login} {loading}>Send reset email</Button>
-			<a class="m-2" href="/login/  "><Button textOnly class="">Back</Button></a>
-		</div>
+<div class="relative">
+	<h2 class="mb-10 text-center text-xl font-medium">Återställ lösenord</h2>
+
+	<form class="flex  flex-col">
+		<Input class="mb-2" type="email" label="Email" bind:value={email} id="" />
+		<span class="text-center text-sm text-gray-500"
+			>Ett mail kommer skickas till din mail-address med en länk. Klicka på länken för att
+			återställa ditt lösenord. Om du inte hittar mailet, kolla i skräpposten.</span
+		>
+		<Button class="mt-16 bg-slate-400" onClick={login} {loading}>Skicka återställningsmail</Button>
+		<a class="m-2 mx-auto" href="/login/  ">Tillbaka</a>
 	</form>
-	<LoginErrorMessage {errorMessage} {loading} />
+	<LoginErrorMessage {errorMessage} showIcon={errorMessageIcon} {loading} />
 </div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { formatPartOfDay, formattedDateLongMonth } from '$lib/helpers/date';
 	import type { LaundryBooking } from '../../routes/(app)/proxy+page';
 	import { bookingsStore, deleteBooking } from '../../store/bookingsStore';
 	import { supabaseStore } from '../../store/supabaseStore';
@@ -35,7 +36,8 @@
 		<div class="info-text flex gap-2">
 			<span>Din bokning:</span>
 			{#if booking}
-				<span class="font-semibold">{booking?.date} {booking?.part}</span>
+				<span class="font-semibold">{formatPartOfDay(booking.part)}</span>
+				{formattedDateLongMonth(new Date(booking.date))}
 			{/if}
 		</div>
 		<Button {onClick} destructive>Avboka</Button>

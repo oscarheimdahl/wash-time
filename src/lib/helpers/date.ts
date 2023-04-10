@@ -3,7 +3,7 @@ import { default as fns_addDays } from 'date-fns/addDays';
 export function formattedDate(date: Date) {
 	return `${date.getDate()} / ${date.getMonth() + 1}`;
 }
-export function formattedDateLongMonth(date: Date) {
+export function formattedDateShortMonth(date: Date) {
 	const swedishMonths = [
 		'Jan',
 		'Feb',
@@ -20,9 +20,34 @@ export function formattedDateLongMonth(date: Date) {
 	];
 	return `${date.getDate()} ${swedishMonths[date.getMonth()]}`;
 }
+export function formattedDateLongMonth(date: Date) {
+	const swedishMonths = [
+		'Januari',
+		'Februari',
+		'Mars',
+		'April',
+		'Maj',
+		'Juni',
+		'Juli',
+		'Augusti',
+		'September',
+		'Oktober',
+		'November',
+		'December'
+	];
+	return `${date.getDate()} ${swedishMonths[date.getMonth()]}`;
+}
+
 export function weekday(date: Date) {
 	const swedishWeekDays = ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'];
 	return swedishWeekDays[date.getDay()];
+}
+
+export function formatPartOfDay(part: number) {
+	if (part === 1) return '08:00 - 12:00';
+	if (part === 2) return '12:00 - 17:00';
+	if (part === 3) return '17:00 - 22:00';
+	return '';
 }
 
 export function addDays(date: Date, days: number) {

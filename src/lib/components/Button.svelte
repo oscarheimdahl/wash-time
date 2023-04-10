@@ -19,7 +19,7 @@
 <button
 	aria-label={label}
 	{disabled}
-	class={`${variantStyle} rounded-md px-4 py-2 shadow-md transition-colors ${$$props.class} disabled:opacity-50`}
+	class={`${variantStyle} rounded-md px-4 py-2 shadow-md transition-transform ${$$props.class} active:scale-95 disabled:opacity-50`}
 	on:click={onClick}
 >
 	<div class="stack">

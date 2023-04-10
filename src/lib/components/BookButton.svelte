@@ -4,7 +4,7 @@
 	import { deleteDBBooking, insertDBBooking, supabaseStore } from '../../store/supabaseStore';
 	import { addBooking, bookingsStore, deleteBooking } from '../../store/bookingsStore';
 	import type { SupabaseType } from '../../types/supabase';
-	import { dateToYYYYMMDD } from '$lib/helpers/date';
+	import { dateToYYYYMMDD, formatPartOfDay } from '$lib/helpers/date';
 	import Button from './Button.svelte';
 
 	export let part: number;
@@ -18,12 +18,11 @@
 	});
 
 	let bookedBySelf = false;
+	let bookedByOther = true;
 	let booked = false;
 	let bookings: Map<string, LaundryBooking> = new Map();
 	let booking: LaundryBooking | undefined;
-	let timeLabel = '08:00 - 12:00';
-	if (part === 2) timeLabel = '12:00 - 17:00';
-	if (part === 3) timeLabel = '17:00 - 22:00';
+	let timeLabel = formatPartOfDay(part);
 	let title = '';
 	bookingsStore.subscribe((_bookings) => {
 		bookings = _bookings;
@@ -31,6 +30,7 @@
 		booked = !!booking;
 		bookedBySelf = booking?.user === userId;
 		title = bookedBySelf ? 'Avboka' : 'Boka';
+		bookedByOther = booked && !bookedBySelf;
 	});
 
 	function findPreviousBooking() {
@@ -58,9 +58,13 @@
 	}
 </script>
 
-<div class="flex h-full flex-col items-center justify-center gap-1 bg-white">
-	<span class={`text-sm text-black ${booked && !bookedBySelf ? 'disabled' : ''}`}>{timeLabel}</span>
-	<Button {onClick} disabled={booked && !bookedBySelf} destructive={bookedBySelf} class="w-full"
+<div
+	class={`flex h-full flex-col items-center justify-center gap-1 bg-white ${
+		bookedByOther ? 'opacity-40' : ''
+	}`}
+>
+	<span class="text-sm text-black">{timeLabel}</span>
+	<Button {onClick} disabled={bookedByOther} destructive={bookedBySelf} class="w-full"
 		>{title}</Button
 	>
 </div>

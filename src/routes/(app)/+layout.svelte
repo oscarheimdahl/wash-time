@@ -28,15 +28,15 @@
 		<slot />
 	</div>
 	<div
-		class={`header fixed top-0 flex h-16 w-full items-center justify-end bg-stone-100 px-2 text-white shadow-md transition-transform ${
+		class={`header fixed top-0 flex h-16 w-full items-center justify-between bg-stone-100 px-4 shadow-md transition-transform ${
 			y > 40 ? '-translate-y-full' : ''
 		}`}
 	>
+		<!-- <div class="flex items-center gap-2"> -->
+		<h2>Inloggad som: <span class="font-semibold">{session?.user.email ?? ''}</span></h2>
 		<Button loading={logoutLoading} onClick={logout}>
-			<div class="flex items-center gap-2">
-				<h2>{session?.user.email ?? ''}</h2>
-				<LogoutIcon />
-			</div>
+			<span class="flex gap-2">Logga ut<LogoutIcon /></span>
 		</Button>
 	</div>
+	<!-- </div> -->
 </div>
