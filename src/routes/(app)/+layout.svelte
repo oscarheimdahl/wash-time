@@ -35,8 +35,16 @@
 		<!-- <div class="flex items-center gap-2"> -->
 		<h2>Inloggad som: <span class="font-semibold">{session?.user.email ?? ''}</span></h2>
 		<Button loading={logoutLoading} onClick={logout}>
-			<span class="flex gap-2">Logga ut<LogoutIcon /></span>
+			<span class="flex gap-2"><span class="logout-text">Logga ut</span><LogoutIcon /></span>
 		</Button>
 	</div>
 	<!-- </div> -->
 </div>
+
+<style>
+	@media screen and (max-width: 500px) {
+		.logout-text {
+			display: none;
+		}
+	}
+</style>

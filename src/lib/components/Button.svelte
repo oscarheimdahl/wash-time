@@ -23,7 +23,7 @@
 	on:click={onClick}
 >
 	<div class="stack">
-		<div class={loading ? 'opacity-0' : ''}><slot /></div>
+		<div class:opacity-0={loading} class="w-full text-center"><slot /></div>
 		<div class={`${loading ? '' : 'hidden'} translate-y-1`}><Loader /></div>
 	</div>
 </button>
@@ -31,7 +31,7 @@
 <style>
 	.stack {
 		display: grid;
-		place-items: center;
+		justify-content: center;
 	}
 	.stack > * {
 		grid-area: 1 / 1 / 2 / 2;

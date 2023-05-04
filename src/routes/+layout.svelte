@@ -29,8 +29,36 @@
 	});
 </script>
 
-<div class="min-h-full w-full bg-stone-200">
+<div class="page-background relative min-h-full w-full overflow-hidden">
+	<div class="background fixed grid bg-stone-200">
+		{#each Array(100).fill(0) as _, i}
+			<div class:rotate={i % 2 === 0} class="image h-40 w-40" />
+		{/each}
+	</div>
 	{#if show}
 		<slot />
 	{/if}
 </div>
+
+<style>
+	:global(.page-background > *:not(.background)) {
+		position: relative;
+	}
+
+	.background {
+		grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+		width: 100%;
+		justify-items: center;
+		gap: 2%;
+	}
+
+	.image {
+		background-image: url('../lib/assets/washing-machine.svg');
+		background-size: 50%;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+	.image.rotate {
+		transform: rotate(30deg);
+	}
+</style>

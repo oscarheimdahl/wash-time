@@ -1,8 +1,8 @@
 <script>
 </script>
 
-<div class="full grid place-content-center">
-	<span class="w-96 rounded-md bg-white p-8 shadow-md"> <slot /></span>
+<div class=" full grid place-content-center">
+	<span class="w-96 rounded-md bg-white p-8 shadow-md"><slot /></span>
 </div>
 
 <style>

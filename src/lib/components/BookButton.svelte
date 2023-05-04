@@ -63,9 +63,8 @@
 		bookedByOther ? 'opacity-40' : ''
 	}`}
 >
-	<span class="text-sm text-black">{timeLabel}</span>
-	<Button {onClick} disabled={bookedByOther} destructive={bookedBySelf} class="w-full"
-		>{title}</Button
+	<span class="text-xs text-black">{timeLabel}</span>
+	<Button {onClick} disabled={bookedByOther} destructive={bookedBySelf} class="w-20">{title}</Button
 	>
 </div>
 

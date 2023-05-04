@@ -37,7 +37,7 @@
 		<span class="mt-2 text-center text-sm text-gray-500"
 			>För att slutföra registeringen måste du verifiera din mail-address.
 		</span>
-		<Button class="mt-16 bg-slate-500" onClick={login} {loading}>Registrera</Button>
+		<Button class="mt-8 bg-slate-500" onClick={login} {loading}>Registrera</Button>
 		<a class="m-2 mx-auto" href="/login/  ">Tillbaka</a>
 	</form>
 	<LoginErrorMessage {errorMessage} {loading} showIcon={errorMessageIcon} />
